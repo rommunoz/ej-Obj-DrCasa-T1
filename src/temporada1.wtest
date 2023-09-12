@@ -1,0 +1,62 @@
+import personas.*
+import enfermedades.*
+
+describe "Temporada 1" {
+	var logan
+	var frank
+	var malaria
+	var malariaFuerte
+	var otitis
+	var lupus
+	
+	method initialize(){
+		malaria = new Enfermedad(
+			tipo = infecciosa, 
+			celulasQueAmenaza = 500
+		)
+		malariaFuerte = new Enfermedad(
+			tipo = infecciosa, 
+			celulasQueAmenaza = 800
+		)
+		otitis = new Enfermedad(
+			tipo = infecciosa, 
+			celulasQueAmenaza = 100
+		)
+		lupus = new Enfermedad(
+			tipo = autoinmune, 
+			celulasQueAmenaza = 10000
+		)
+		logan = new Persona(
+			temperaturaCorporal = 36,
+			celulasTotales = 3000000,
+			enfermedades = [malaria, otitis, lupus]
+		)
+		frank = new Persona(
+			temperaturaCorporal = 36,
+			celulasTotales = 3500000
+		)
+	}
+	
+	test "1- se nos enfermó Frank Fabra" {
+		frank.contraerEnfermedad(malariaFuerte)
+		assert.equals([malariaFuerte], frank.enfermedades())
+	}
+	
+	test "2- La malaria comun se reproduce" {
+		malaria.reproducirse()
+		assert.equals(1000, malaria.celulasQueAmenaza())
+	}
+	
+	test "3- Logan sobrevive un dia" {
+		logan.vivir(1)
+		assert.equals(lupus, logan.enfermedadMasAmenazante())
+		assert.equals(true, logan.estaEnComa())
+		assert.equals(true, logan.estaEnComa())
+		
+		
+	}
+	
+	
+	
+}
+
