@@ -27,17 +27,15 @@ describe "Temporada 1" {
 			celulasQueAmenaza = 10000
 		)
 		logan = new Persona(
-			temperaturaCorporal = 36,
 			celulasTotales = 3000000,
 			enfermedades = [malaria, otitis, lupus]
 		)
 		frank = new Persona(
-			temperaturaCorporal = 36,
 			celulasTotales = 3500000
 		)
 	}
 	
-	test "1- se nos enfermó Frank Fabra" {
+	test "1- se nos enfermo Frank Fabra" {
 		frank.contraerEnfermedad(malariaFuerte)
 		assert.equals([malariaFuerte], frank.enfermedades())
 	}
@@ -47,16 +45,59 @@ describe "Temporada 1" {
 		assert.equals(1000, malaria.celulasQueAmenaza())
 	}
 	
-	test "3- Logan sobrevive un dia" {
-		logan.vivir(1)
+	test "3- Logan sobrevive un dia y se verifica la enfermedadMasAmenazante, si estaEnComa y el total de Celulas Afectadas por Enfermedades Agresivas" {
+		logan.vivirUnDia()
 		assert.equals(lupus, logan.enfermedadMasAmenazante())
-		assert.equals(true, logan.estaEnComa())
-		assert.equals(true, logan.estaEnComa())
-		
-		
+		assert.equals(false, logan.estaEnComa())
+		assert.equals(0, logan.totalCelulasAfectadasPorAgresivas())
 	}
 	
+	test "4- Logan pasa 31 dias con sus enfermedades" {
+		31.times{i => logan.vivirUnDia()}
+		assert.equals(lupus, logan.enfermedadMasAmenazante())
+		assert.equals(true, logan.estaEnComa())
+		assert.equals(10000, logan.totalCelulasAfectadasPorAgresivas())
+	}
 	
+	test "- Cantidad de celulas despues de vivir un dia"{
+		logan.vivirUnDia()
+		assert.equals(2990000, logan.celulasTotales())
+	}
+	
+	test "- Cantidad de celulas despues de vivir 2 dias"{
+		2.times{i => logan.vivirUnDia()}
+		assert.equals(2980000, logan.celulasTotales())
+	}
+	
+	test "- Despues de vivir 14 dias"{
+		14.times{i => logan.vivirUnDia()}
+		assert.equals(2860000, logan.celulasTotales())
+		assert.equals(44.4, logan.temperaturaCorporal())
+		assert.equals(14, logan.diasTranscurridos())
+	}
+	
+	test "- No puedo superar los 45 grados" {
+		frank.sumarTemperatura(16)
+		logan.sumarTemperatura(16)
+		assert.equals(45, frank.temperaturaCorporal())
+		assert.equals(45, logan.temperaturaCorporal())
+	}
+	
+	test "- 31 dias de Logan usando totalCelulasAfectadasPorAgresivas" {
+		31.times{i => logan.vivirUnDia()}
+		assert.equals(lupus, logan.enfermedadMasAmenazante())
+		assert.equals(true, logan.estaEnComa())
+		assert.equals(10000, logan.totalCelulasAfectadasPorAgresivasV2())
+	}
+	
+	test "Malaria gigante para frank" {
+		frank.contraerEnfermedad(malariaFuerte)
+		9.times{i => malariaFuerte.reproducirse()}
+		assert.equals(409600, malariaFuerte.celulasQueAmenaza())
+		assert.that(malariaFuerte.esAgresiva(frank))
+		assert.equals([malariaFuerte], frank.agresivas())
+		assert.equals(409600, frank.totalCelulasAfectadasPorAgresivas())
+	}
 	
 }
 

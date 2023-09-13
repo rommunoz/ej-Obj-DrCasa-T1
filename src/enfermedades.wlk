@@ -6,14 +6,6 @@ class Enfermedad {
 		return tipo.agresiva(persona, celulasQueAmenaza)
 	}
 	
-	method celulasQueAmenazaAgresivamente(persona){
-		if (self.esAgresiva(persona)){
-			return celulasQueAmenaza
-		} else {
-			return 0
-		}
-	}
-	
 	method efecto(persona){
 		return tipo.efecto(persona, celulasQueAmenaza)
 	}
@@ -26,13 +18,11 @@ class Enfermedad {
 object infecciosa {
 	
 	method agresiva(persona, celulasQueAmenaza){
-		return celulasQueAmenaza > persona.celulasTotales() * 0.1
+		return celulasQueAmenaza > (0.1 * persona.celulasTotales())
 	}
 	
 	method efecto(persona, celulasQueAmenaza){
-		var aumentoDeTemperatura
-		aumentoDeTemperatura = celulasQueAmenaza * 0.001
-		persona.sumarTemperatura(aumentoDeTemperatura)
+		persona.sumarTemperatura(celulasQueAmenaza * 0.001)
 	}
 	
 	method reproducirse(enfermedad){
