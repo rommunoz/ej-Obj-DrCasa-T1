@@ -1,5 +1,6 @@
 import personas.*
 import enfermedades.*
+import tiposDeEnf.*
 
 describe "Temporada 1" {
 	var logan
@@ -10,20 +11,16 @@ describe "Temporada 1" {
 	var lupus
 	
 	method initialize(){
-		malaria = new Enfermedad(
-			tipo = infecciosa, 
+		malaria = new EnfermedadInfecciosa(
 			celulasQueAmenaza = 500
 		)
-		malariaFuerte = new Enfermedad(
-			tipo = infecciosa, 
+		malariaFuerte = new EnfermedadInfecciosa(
 			celulasQueAmenaza = 800
 		)
-		otitis = new Enfermedad(
-			tipo = infecciosa, 
+		otitis = new EnfermedadInfecciosa(
 			celulasQueAmenaza = 100
 		)
-		lupus = new Enfermedad(
-			tipo = autoinmune, 
+		lupus = new EnfermedadAutoinmune(
 			celulasQueAmenaza = 10000
 		)
 		logan = new Persona(
@@ -37,7 +34,7 @@ describe "Temporada 1" {
 	
 	test "1- se nos enfermo Frank Fabra" {
 		frank.contraerEnfermedad(malariaFuerte)
-		assert.equals([malariaFuerte], frank.enfermedades())
+		assert.equals({malariaFuerte}, frank.enfermedades())
 	}
 	
 	test "2- La malaria comun se reproduce" {
@@ -73,7 +70,6 @@ describe "Temporada 1" {
 		14.times{i => logan.vivirUnDia()}
 		assert.equals(2860000, logan.celulasTotales())
 		assert.equals(44.4, logan.temperaturaCorporal())
-		assert.equals(14, logan.diasTranscurridos())
 	}
 	
 	test "- No puedo superar los 45 grados" {
@@ -87,7 +83,7 @@ describe "Temporada 1" {
 		31.times{i => logan.vivirUnDia()}
 		assert.equals(lupus, logan.enfermedadMasAmenazante())
 		assert.equals(true, logan.estaEnComa())
-		assert.equals(10000, logan.totalCelulasAfectadasPorAgresivasV2())
+		assert.equals(10000, logan.totalCelulasAfectadasPorAgresivas())
 	}
 	
 	test "Malaria gigante para frank" {
@@ -95,7 +91,7 @@ describe "Temporada 1" {
 		9.times{i => malariaFuerte.reproducirse()}
 		assert.equals(409600, malariaFuerte.celulasQueAmenaza())
 		assert.that(malariaFuerte.esAgresiva(frank))
-		assert.equals([malariaFuerte], frank.agresivas())
+		assert.equals({malariaFuerte}, frank.agresivas())
 		assert.equals(409600, frank.totalCelulasAfectadasPorAgresivas())
 	}
 	

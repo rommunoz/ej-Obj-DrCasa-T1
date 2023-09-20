@@ -1,48 +1,34 @@
-import enfermedades.*
-
-object celulasAmenazadas {
-	method apply(enfermedad){
-		return enfermedad.celulasQueAmenaza()
-	}
-}
+//object celulasAmenazadas {
+//	method apply(enfermedad){
+//		return enfermedad.celulasQueAmenaza()
+//	}
+//}
 
 class Persona {
 	
-	const property enfermedades = []
+	const property enfermedades = #{}
 	var property temperaturaCorporal = 36
-	var property celulasTotales
-	var property diasTranscurridos = 0
-	//var dias = diasTranscurridos //auxiliar para metodo (dudosisimo)
-	const criterio = celulasAmenazadas // evitar una logica repetida
+	var celulasTotales = 3000000
 	
 	method contraerEnfermedad(unaEnfermedad){
 		enfermedades.add(unaEnfermedad)
 	}
-//	method efectuarEnfermedades() {
-//		if(dias-- > 0){
-//			enfermedades.map{
-//				enfermedad => enfermedad.efecto(self)
-//			}
-//			self.efectuarEnfermedades()
-//		}
-//	}
 
 //	method vivir(unosDias) { // como hago esto para darle una cantidad de dias
 //		unosDias.times{self.efectuarEnfermedades()}
 //		diasTranscurridos += unosDias //luego lo uso para autoinmune
 //	}
 	
-	method vivirUnDia() { 
-		self.efectuarEnfermedades()
-		diasTranscurridos++ //luego lo uso para autoinmune
+	method tiene(enfermedad) {
+		return enfermedades.contains(enfermedad)
 	}
 	
-	method efectuarEnfermedades() {
+	method vivirUnDia() {
 			enfermedades.forEach{enfermedad => enfermedad.efecto(self)}
 	}
 	
 	method sumarTemperatura(unosGrados){
-		temperaturaCorporal = (temperaturaCorporal + unosGrados).min(45)
+		temperaturaCorporal = 45.min(temperaturaCorporal + unosGrados)
 	}
 	
 	method estaEnComa(){
@@ -62,7 +48,7 @@ class Persona {
 	}  
 	
 	method destruirCelulas(cantidadADestruir){
-		celulasTotales = (celulasTotales - cantidadADestruir).max(0)
+		celulasTotales = 0.max(self.celulasTotales() - cantidadADestruir)
 	}
 	
 	method enfermedadMasAmenazante(){
@@ -74,14 +60,14 @@ class Persona {
 		return self.agresivas().sum{enfermedad => enfermedad.celulasQueAmenaza()}
 	}
 	
-	method totalCelulasAfectadasPorAgresivasV2(){
-		return self.agresivas().sum(criterio)
+	method celulasTotales(){
+		return celulasTotales
 	}
-			
+		
 	method agresivas(){
 		return enfermedades.filter{
 			enfermedad => enfermedad.esAgresiva(self)
-			}
+		}
 	}
 }
 
