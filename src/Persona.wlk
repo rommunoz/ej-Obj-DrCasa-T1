@@ -85,6 +85,9 @@ class Persona {
 		if (!self.tieneSuficientesCelulas(cantidadDeCelulas)){
 			throw new Exception (message = "El donante no tiene suficientes celulas")
 		}
+		if (!(cantidadDeCelulas > 500)){
+			throw new Exception (message = "La donacion no supera el minimo de 500 celulas")
+		}
 		self.realizarTransfusion(otraPersona, cantidadDeCelulas)
 	}
 //	method intentarDonarA(otraPersona, cantidadDeCelulas) {
@@ -131,6 +134,10 @@ class Persona {
 	
 	method perderCelulasTotalesEn(unasCelulas) { //para arreglar la semantica
 		self.destruirCelulas(unasCelulas) 
+	}
+	
+	method intentarDonarTodoLoQuePuedeA(otraPersona){
+		self.intentarDonarA(otraPersona, self.celulasTotales()/4)
 	}
 	
 }

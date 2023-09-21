@@ -1,7 +1,6 @@
 import Persona.*
 import PersonalDeSalud.*
 
-
 class Medico inherits PersonalDeSalud {
 	const dosis
 	

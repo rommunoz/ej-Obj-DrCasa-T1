@@ -4,6 +4,7 @@ import PersonalDeSalud.*
 import JefeDeDepartamento.*
 import Enfermedades.*
 import TiposDeEnf.*
+import FactoresSanguineos.*
 
 /* 
 describe "Temporada 1" {
@@ -178,9 +179,10 @@ describe "Temporada 3" {
 	var foreman
 	
 	method initialize() {
-		logan = new Persona(celulasTotales = 3000000)
-		cameron = new Medico(dosis = 10)
-		house = new JefeDeDepartamento(celulasTotales = 3000000, temperaturaCorporal = 36)
+		logan = new Persona(celulasTotales = 3000000, factorSanguineo = factorR)
+		cameron = new Medico(dosis = 10, factorSanguineo = factorA)
+		house = new JefeDeDepartamento(celulasTotales = 3000000, temperaturaCorporal = 36, factorSanguineo = factorO)
+		foreman = new Persona(celulasTotales = 3000000, temperaturaCorporal = 36, factorSanguineo = factorA)
 	}
 	
 	test "1- Cameron intenta donar a House, 1100 celulas" {
@@ -188,8 +190,19 @@ describe "Temporada 3" {
 	}
 	
 	test "1- Mismo test, Mensaje especifico" {
-		assert.throwsExceptionWithMessage("No son compatibles", {cameron.intentarDonarA(house, 1100)})}
+		assert.throwsExceptionWithMessage("No son compatibles", {cameron.intentarDonarA(house, 1100)})
+	}
+		
+	test "2- Logan intenta donarle todo lo que puede a Foreman, Mensaje general" {
+		assert.throwsExceptionWithMessage("No son compatibles", {logan.intentarDonarTodoLoQuePuedeA(foreman)})
+	}
 	
+	test "3- Foreman intenta donarle a Cameron 300 celulas" {
+		assert.throwsExceptionWithMessage("La donacion no supera el minimo de 500 celulas",
+			{foreman.intentarDonarA(cameron, 300)})
+	}
+	
+
 //	test "?"{
 //		assert.equals(3001100, house.celulasTotales())
 //		assert.equals(2998900, cameron.celulasTotales())
