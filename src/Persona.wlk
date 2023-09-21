@@ -77,18 +77,32 @@ class Persona {
 		temperaturaCorporal = 0
 	}
 	
+	
 	method intentarDonarA(otraPersona, cantidadDeCelulas) {
-		if (! self.puedeDonarA(otraPersona, cantidadDeCelulas)){
-			throw new Exception(message = "No se pudo donar")
+		if (!self.esCompatibleCon(otraPersona)){ //segun factor, ida y vuelta
+			throw new Exception (message = "No son compatibles")		//(message = self.toString() + " no es compatible con " + otraPersona.toString())	
+		}
+		if (!self.tieneSuficientesCelulas(cantidadDeCelulas)){
+			throw new Exception (message = "El donante no tiene suficientes celulas")
 		}
 		self.realizarTransfusion(otraPersona, cantidadDeCelulas)
 	}
-	
-	method puedeDonarA(otraPersona, cantidadDeCelulas) {
-		return self.esCompatibleCon(otraPersona) and 			//segun factor, ida y vuelta
-				self.tieneSuficientesCelulas(cantidadDeCelulas)
-	}
-	
+//	method intentarDonarA(otraPersona, cantidadDeCelulas) {
+//		if (! self.puedeDonarA(otraPersona, cantidadDeCelulas)){
+//			throw new Exception(message = "No se pudo donar")
+//		}
+//		self.realizarTransfusion(otraPersona, cantidadDeCelulas)
+//	}
+//	
+//	method puedeDonarA(otraPersona, cantidadDeCelulas) {
+//		if (!self.esCompatibleCon(otraPersona)){ //segun factor, ida y vuelta
+//			throw new Exception (message = self + " no es compatible con " + otraPersona)		
+//		}
+//		if (!self.tieneSuficientesCelulas(cantidadDeCelulas)){
+//			throw new Exception (message = self + " no tiene suficientes celulas")
+//		}
+//	}
+//	
 	method realizarTransfusion(otraPersona, cantidadDeCelulas) {
 		otraPersona.aumentarCelulasTotalesEn(cantidadDeCelulas)
 		self.perderCelulasTotalesEn(cantidadDeCelulas)

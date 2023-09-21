@@ -187,6 +187,9 @@ describe "Temporada 3" {
 		assert.throwsExceptionWithMessage("No se pudo donar", {cameron.intentarDonarA(house, 1100)})
 	}
 	
+	test "1- Mismo test, Mensaje especifico" {
+		assert.throwsExceptionWithMessage("No son compatibles", {cameron.intentarDonarA(house, 1100)})}
+	
 //	test "?"{
 //		assert.equals(3001100, house.celulasTotales())
 //		assert.equals(2998900, cameron.celulasTotales())

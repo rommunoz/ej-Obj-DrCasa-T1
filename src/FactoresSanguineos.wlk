@@ -1,4 +1,4 @@
-// idea: throw new Exception(message = "factorA no puede dar a".concat(otroFactor.toString()))
+// idea: throw new Exception(message = "factorA no puede dar a" + otroFactor.toString() )
 object factorA {
 	method puedeDarA(otroFactor){
 		 return #{factorR, self}.contains(otroFactor)
