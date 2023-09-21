@@ -1,9 +1,11 @@
+import FactoresSanguineos.*
 
 class Persona {
 	
 	const enfermedades = #{}
 	var temperaturaCorporal = 36
 	var celulasTotales = 3000000
+	const factorSanguineo = factorO	
 	
 	method contraerEnfermedad(unaEnfermedad){
 		enfermedades.add(unaEnfermedad)
@@ -73,6 +75,48 @@ class Persona {
 	
 	method morir() {
 		temperaturaCorporal = 0
+	}
+	
+	method intentarDonarA(otraPersona, cantidadDeCelulas) {
+		if (! self.puedeDonarA(otraPersona, cantidadDeCelulas)){
+			throw new Exception(message = "No se pudo donar")
+		}
+		self.realizarTransfusion(otraPersona, cantidadDeCelulas)
+	}
+	
+	method puedeDonarA(otraPersona, cantidadDeCelulas) {
+		return self.esCompatibleCon(otraPersona) and 			//segun factor, ida y vuelta
+				self.tieneSuficientesCelulas(cantidadDeCelulas)
+	}
+	
+	method realizarTransfusion(otraPersona, cantidadDeCelulas) {
+		otraPersona.aumentarCelulasTotalesEn(cantidadDeCelulas)
+		self.perderCelulasTotalesEn(cantidadDeCelulas)
+	}
+	
+	method esCompatibleCon(otraPersona) {
+		return factorSanguineo.puedeDarA(otraPersona.factorSanguineo()) and
+				otraPersona.puedeRecibirDeFactor(self.factorSanguineo())
+	}
+	
+	method factorSanguineo() {
+		return factorSanguineo
+	}
+	
+	method puedeRecibirDeFactor(unFactor) {
+		return factorSanguineo.puedeRecibirDe(unFactor)
+	}
+	
+	method tieneSuficientesCelulas(cantidadDeCelulas) {
+		return cantidadDeCelulas <= celulasTotales/4
+	}
+	
+	method aumentarCelulasTotalesEn(unasCelulas) {
+		celulasTotales += unasCelulas 
+	}
+	
+	method perderCelulasTotalesEn(unasCelulas) { //para arreglar la semantica
+		self.destruirCelulas(unasCelulas) 
 	}
 	
 }

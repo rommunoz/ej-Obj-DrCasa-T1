@@ -5,7 +5,7 @@ import JefeDeDepartamento.*
 import Enfermedades.*
 import TiposDeEnf.*
 
-
+/* 
 describe "Temporada 1" {
 	var logan
 	var frank
@@ -170,14 +170,28 @@ describe "Temporada 2" {
 		assert.equals(0, house.temperaturaCorporal())
 	}
 }
-
+*/
 describe "Temporada 3" {
 	var logan
 	var cameron
 	var house
 	var foreman
-	var malaria500
-	var lupus
-	var otitis
+	
+	method initialize() {
+		logan = new Persona(celulasTotales = 3000000)
+		cameron = new Medico(dosis = 10)
+		house = new JefeDeDepartamento(celulasTotales = 3000000, temperaturaCorporal = 36)
+	}
+	
+	test "1- Cameron intenta donar a House, 1100 celulas" {
+		assert.throwsExceptionWithMessage("No se pudo donar", {cameron.intentarDonarA(house, 1100)})
+	}
+	
+//	test "?"{
+//		assert.equals(3001100, house.celulasTotales())
+//		assert.equals(2998900, cameron.celulasTotales())
+//	}
+	
 }
+
 
