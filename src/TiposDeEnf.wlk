@@ -1,4 +1,4 @@
-import enfermedades.*
+import Enfermedades.*
 
 class EnfermedadInfecciosa inherits Enfermedad {
 	

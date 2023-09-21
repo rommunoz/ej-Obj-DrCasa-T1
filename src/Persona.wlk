@@ -1,23 +1,17 @@
-//object celulasAmenazadas {
-//	method apply(enfermedad){
-//		return enfermedad.celulasQueAmenaza()
-//	}
-//}
 
 class Persona {
 	
-	const property enfermedades = #{}
-	var property temperaturaCorporal = 36
+	const enfermedades = #{}
+	var temperaturaCorporal = 36
 	var celulasTotales = 3000000
 	
 	method contraerEnfermedad(unaEnfermedad){
 		enfermedades.add(unaEnfermedad)
 	}
 
-//	method vivir(unosDias) { // como hago esto para darle una cantidad de dias
-//		unosDias.times{self.efectuarEnfermedades()}
-//		diasTranscurridos += unosDias //luego lo uso para autoinmune
-//	}
+	method vivir(unosDias) {
+		unosDias.times{dia => self.vivirUnDia()}
+	}
 	
 	method tiene(enfermedad) {
 		return enfermedades.contains(enfermedad)
@@ -31,11 +25,7 @@ class Persona {
 		temperaturaCorporal = 45.min(temperaturaCorporal + unosGrados)
 	}
 	
-	method estaEnComa(){
-		return temperaturaCorporal == 45 || celulasTotales < 1000000
-	}
-	
-	method estaEnComaV2(){
+	method estaEnComa() {
 		return self.temperaturaCritica() || self.cantidadCriticaDeCelulas()
 	}
 	
@@ -55,7 +45,6 @@ class Persona {
 		return enfermedades.max{enfermedad => enfermedad.celulasQueAmenaza()}
 	}
 	
-	
 	method totalCelulasAfectadasPorAgresivas(){
 		return self.agresivas().sum{enfermedad => enfermedad.celulasQueAmenaza()}
 	}
@@ -69,6 +58,23 @@ class Persona {
 			enfermedad => enfermedad.esAgresiva(self)
 		}
 	}
+	
+	method medicateCon(unaDosis) {
+		enfermedades.forEach{enfermedad => enfermedad.atenuatePara(self, unaDosis)}
+	}
+	
+	method curarseDe(unaEnfermedad) {
+		enfermedades.remove(unaEnfermedad)
+	}
+	
+	method temperaturaCorporal(){
+		return temperaturaCorporal
+	}
+	
+	method morir() {
+		temperaturaCorporal = 0
+	}
+	
 }
 
 
