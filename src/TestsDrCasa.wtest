@@ -202,6 +202,11 @@ describe "Temporada 3" {
 			{foreman.intentarDonarA(cameron, 300)})
 	}
 	
+	test " - Foreman intenta donarle a Cameron 800 celulas" {
+		foreman.intentarDonarA(cameron, 900)
+		assert.equals(2999100, foreman.celulasTotales())
+		assert.equals(3000900, cameron.celulasTotales())
+	}
 
 //	test "?"{
 //		assert.equals(3001100, house.celulasTotales())
